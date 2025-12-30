@@ -11,7 +11,7 @@ body {
 }
 
 /* Bloc question */
-#question-container, #video-screen, #intro-box {
+#question-container {
   background: #2b002f;
   padding: 15px;
   margin-bottom: 20px;
@@ -116,4 +116,5 @@ input[type="text"] {
     right: 10px;
   }
 }
+
 
