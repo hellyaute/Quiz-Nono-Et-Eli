@@ -8,6 +8,7 @@ const progress = document.getElementById("progress");
 const resultScreen = document.getElementById("result-screen");
 const resultTitle = document.getElementById("result-title");
 const resultMessage = document.getElementById("result-message");
+const videoScreen = document.getElementById("video-screen");
 
 let currentQuestion = 0;
 let score = 0;
@@ -17,66 +18,68 @@ function normalize(str) {
 }
 
 const questions = [
-  { type: "qcm", question: "A quelle date on s'est mis ensemble ?", options: ["7 mai 2017", "16 février 2013", "26 décembre 2023", "14 juillet 1789"], answers: ["26 décembre 2023"] },
-  { type: "libre", question: "Quelle est la première activité qu'on a faite ensemble ?", answers: ["pétanque","petanque"] },
-  { type: "qcm", question: "C'est quoi mon passe-temps préféré ?", options: ["Te parler", "Les échecs", "Bully de CE1"], answers: ["Te parler"] },
-  { type: "libre", question: "Où est-ce qu'on allait après les cours ?", answers: ["carrefour","au carrefour","le carrefour","aller a carrefour"] },
-  { type: "qcm", question: "Quelle blessure je me suis faite au cross ?", options: ["Commotion cérébrale", "Fracture", "Piqûre avec les épingles pour les dossards"], answers: ["Commotion cérébrale"] },
-  { type: "qcm", question: "Qu'est ce qu'on mange à chaque fois que tu viens chez moi ?", options: ["Pizza","Cordon bleu","Franui"], answers: ["Pizza"] },
-  { type: "libre", question: "Quels émojis tu m'envoie avant de dormir ?", answers: ["👋👋👋","👉👈"] },
-  { type: "qcm", question: "Quel est notre jeu préféré ensemble ?", options: ["Fléchette","Pétanque","Skip-bo","Le jeu des mots","Le code names"], answers: ["Fléchette","Pétanque","Skip-bo","Le jeu des mots","Le code names"] },
-  { type: "libre", question: "Quelle boisson je prends toujours ?", answers: ["coca vanille","coca vanille."] },
-  { type: "qcm", question: "Qui gagne le plus souvent à nos jeux ?", options: ["Toi","Moi","Égalité"], answers: ["Moi"] },
-  { type: "libre", question: "Quelle est ma couleur préférée ?", answers: ["vert"] },
-  { type: "qcm", question: "Combien de temps on parle par jour ?", options: ["10 minutes","1h","Toute la journée"], answers: ["Toute la journée"] },
-  { type: "libre", question: "Quelle est notre saison préférée ?", answers: ["été","ete"] },
-  { type: "qcm", question: "Qu'est-ce que je préfère chez toi ?", options: ["Ton humour","Tes yeux","Tout"], answers: ["Tout"] },
-  { type: "qcm", question: "Qu'est ce qui t'énerve le plus chez moi ?", options: ["Comment je tape sur mon téléphone","comment je relance la discussion H24"], answers: ["Comment je tape sur mon téléphone","comment je relance la discussion H24"] }
+  { type: "qcm", question: "A quelle date on s'est mis ensemble ?", options: ["7 mai 2017","16 février 2013","26 décembre 2023","14 juillet 1789"], answers:["26 décembre 2023"] },
+  { type:"libre", question:"Quelle est la première activité qu'on a faite ensemble ?", answers:["pétanque","petanque"] },
+  { type:"qcm", question:"C'est quoi mon passe-temps préféré ?", options:["Te parler","Les échecs","Bully de CE1"], answers:["Te parler"] },
+  { type:"libre", question:"Où est-ce qu'on allait après les cours ?", answers:["carrefour","au carrefour","le carrefour","aller a carrefour"] },
+  { type:"qcm", question:"Quelle blessure je me suis faite au cross ?", options:["Commotion cérébrale","Fracture","Piqûre avec les épingles pour les dossards"], answers:["Commotion cérébrale"] },
+  { type:"qcm", question:"Qu'est ce qu'on mange à chaque fois que tu viens chez moi ?", options:["Pizza","Cordon bleu","Franui"], answers:["Pizza"] },
+  { type:"libre", question:"Quels émojis tu m'envoie avant de dormir ?", answers:["👋👋👋","👉👈"] },
+  { type:"qcm", question:"Quel est notre jeu préféré ensemble ?", options:["Fléchette","Pétanque","Skip-bo","Le jeu des mots","Le code names"], answers:["Fléchette","Pétanque","Skip-bo","Le jeu des mots","Le code names"] },
+  { type:"libre", question:"Quelle boisson je prends toujours ?", answers:["coca vanille","coca vanille."] },
+  { type:"qcm", question:"Qui gagne le plus souvent à nos jeux ?", options:["Toi","Moi","Égalité"], answers:["Moi"] },
+  { type:"libre", question:"Quelle est ma couleur préférée ?", answers:["vert"] },
+  { type:"qcm", question:"Combien de temps on parle par jour ?", options:["10 minutes","1h","Toute la journée"], answers:["Toute la journée"] },
+  { type:"libre", question:"Comment s'écrit le nom de mon père ?", answers:["Ronny","ronny"] },
+  { type:"qcm", question:"Qu'est-ce que je préfère chez toi ?", options:["Ton humour","Tes yeux","Tout"], answers:["Tout"] },
+  { type:"qcm", question:"Qu'est ce qui t'énerve le plus chez moi ?", options:["Comment je tape sur mon téléphone","comment je relance la discussion H24"], answers:["Comment je tape sur mon téléphone","comment je relance la discussion H24"] }
 ];
 
 startBtn.addEventListener("click", startGame);
 validateBtn.addEventListener("click", validateLibre);
 
-function startGame() {
-  currentQuestion = 0;
-  score = 0;
-  document.getElementById("start-screen").style.display = "none";
-  document.getElementById("quiz-screen").style.display = "block";
+function startGame(){
+  currentQuestion=0;
+  score=0;
+  document.getElementById("start-screen").style.display="none";
+  document.getElementById("quiz-screen").style.display="block";
   showQuestion();
 }
 
-function showQuestion() {
-  if(currentQuestion >= questions.length) return showResults();
+function showQuestion(){
+  if(currentQuestion>=questions.length) return showResults();
 
   const q = questions[currentQuestion];
   questionText.textContent = q.question;
   answerBox.innerHTML = "";
   textZone.style.display = "none";
+
   progress.textContent = `${currentQuestion+1}/${questions.length}`;
 
-  if(q.type === "qcm"){
+  if(q.type==="qcm"){
     q.options.forEach(opt=>{
-      const btn = document.createElement("button");
+      const btn=document.createElement("button");
       btn.classList.add("qcm-option");
-      btn.textContent = opt;
-      btn.addEventListener("click", ()=>{
-        const chosen = normalize(opt);
-        if(q.answers.some(a=>normalize(a)===chosen)) score++;
+      btn.textContent=opt;
+      btn.addEventListener("click",()=>{
+        const good = q.answers.map(a=>normalize(a));
+        if(good.includes(normalize(opt))) score++;
         currentQuestion++;
-        setTimeout(showQuestion, 250);
+        setTimeout(showQuestion,250);
       });
       answerBox.appendChild(btn);
     });
   } else {
-    textZone.style.display = "block";
+    textZone.style.display="block";
     textInput.value="";
   }
 }
 
 function validateLibre(){
-  const q = questions[currentQuestion];
-  const txt = normalize(textInput.value);
-  if(q.answers.some(a=>normalize(a)===txt)) score++;
+  const q=questions[currentQuestion];
+  const txt=normalize(textInput.value);
+  const good=q.answers.map(a=>normalize(a));
+  if(good.includes(txt)) score++;
   currentQuestion++;
   showQuestion();
 }
@@ -87,9 +90,10 @@ function showResults(){
 
   if(score>=14){
     resultTitle.textContent="🎉 BRAVO ! 🎉";
-    resultMessage.textContent="Tu as gagné la récompense";
+    resultMessage.textContent="Tu as gagné la récompense ";
+    videoScreen.style.display="block";
   } else {
-    resultTitle.textContent="Hmmmm… presque";
+    resultTitle.textContent="Hmmmm… presque ";
     resultMessage.textContent=`Tu as eu ${score}/${questions.length}. Réessaie !`;
   }
 }
