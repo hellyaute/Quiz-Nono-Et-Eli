@@ -1,0 +1,46 @@
+index.html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="progress"></div>
+
+<div id="start-screen">
+    <h1>Quiz sur Nono et Eli</h1>
+  <div id="intro-box">
+  <p>Un petit quiz pour resumer notre relation<br>
+  Réponds correctement à 14 questions sur 15 pour avoir la récompense !</p>
+</div>
+
+    <button id="start-btn">Commencer</button>
+</div>
+
+<div id="quiz-screen" style="display:none;">
+    <h2 id="question-text"></h2>
+
+    <div id="answer-box"></div>
+
+    <div id="text-answer-zone" style="display:none;">
+        <input id="text-input" type="text" placeholder="Ta réponse…">
+        <button id="validate-btn">Valider</button>
+    </div>
+</div>
+
+<div id="result-screen" style="display:none;">
+  <video id="reward-video" width="100%" controls style="display:none; margin-bottom:20px;">
+  <source src="ScreenRecording_12-29-2025 00-07-22_1" type="video/mp4">
+  Ton navigateur ne supporte pas la vidéo.
+</video>
+
+    <h2 id="result-title"></h2>
+    <p id="result-message"></p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
